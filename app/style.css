@@ -1,5 +1,6 @@
 /* Leonida Trophy Guide — our own look: a Vice City dusk palette, deep navy panels,
-   warm sunset pink and teal accents. No external fonts or images; everything is local. */
+   warm sunset pink and teal accents. No external fonts or images; everything is local.
+   Layout: header + audit strip, then a 3-column guide — checklist / guide / sources. */
 :root {
   --bg: #0e1420;
   --panel: #182234;
@@ -23,7 +24,7 @@ body {
   background: var(--bg); color: var(--text);
   line-height: 1.5;
 }
-body > * { max-width: 1080px; margin-left: auto; margin-right: auto; }
+body > * { max-width: 1280px; margin-left: auto; margin-right: auto; }
 a { color: var(--accent-2); }
 a:visited { color: #7dd3c8; }
 
@@ -44,6 +45,16 @@ h1 { font-size: 44px; line-height: 1.05; margin: 0 0 10px; letter-spacing: -0.01
 .progress-bar { height: 10px; background: #0a0f1a; border-radius: 6px; overflow: hidden; }
 .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.25s ease; }
 .progress-sub, .progress-grades { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+
+.audit {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 18px auto 0;
+}
+.audit div {
+  flex: 1 1 180px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 16px;
+}
+.audit strong { display: block; font-size: 22px; color: var(--accent-2); }
+.audit span { color: var(--muted); font-size: 13px; }
 
 .facts {
   display: flex; flex-wrap: wrap; gap: 10px; margin: 18px auto;
@@ -96,19 +107,36 @@ h1 { font-size: 44px; line-height: 1.05; margin: 0 0 10px; letter-spacing: -0.01
 .controls .import input { font-size: 12px; max-width: 170px; }
 .list-meta { color: var(--muted); font-size: 14px; margin: 10px auto; }
 
-.card {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-  padding: 16px 18px; margin: 0 auto 12px;
+/* --- 3-column guide: checklist / guide / sources --- */
+.guide-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 280px;
+  gap: 16px; align-items: start;
 }
-.card.earned { border-color: var(--accent-2); }
-.card.missable-card { border-color: var(--warn-line); }
-.card-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.card-head input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent-2); flex: none; }
-.card-head h3 { margin: 0; font-size: 19px; flex: 1 1 auto; }
-.card.earned .card-head h3 { color: var(--accent-2); }
+.guide-layout h2 { margin: 0 0 6px; font-size: 20px; }
+.checklist-col, .guide-col, .sources-col {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px;
+}
+.guide-col, .sources-col { position: sticky; top: 16px; }
+.col-hint { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+
+.check-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; margin: 0 -6px 2px; border-radius: 8px;
+  cursor: pointer; border: 1px solid transparent;
+}
+.check-row:hover { background: var(--panel-2); }
+.check-row.selected { background: var(--panel-2); border-color: var(--accent-2); }
+.check-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-2); flex: none; }
+.check-row .check-name { flex: 1 1 auto; font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+.check-row.earned .check-name { color: var(--accent-2); }
+.check-row.hidden-row .check-name { color: var(--muted); font-style: italic; }
+.check-row .badge { flex: none; }
+
 .badge {
-  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  border-radius: 20px; padding: 3px 10px; white-space: nowrap;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: 20px; padding: 3px 9px; white-space: nowrap;
 }
 .grade-platinum { background: #12303d; color: var(--platinum); border: 1px solid #4db8d8; }
 .grade-gold { background: #3a2f10; color: var(--gold); border: 1px solid #a8862a; }
@@ -116,17 +144,55 @@ h1 { font-size: 44px; line-height: 1.05; margin: 0 0 10px; letter-spacing: -0.01
 .grade-bronze { background: #3a2417; color: #f0b184; border: 1px solid #a86a3d; }
 .badge.kind { background: transparent; color: var(--muted); border: 1px solid var(--line); }
 .badge.missable { background: var(--warn-bg); color: #ffb27a; border: 1px solid var(--warn-line); }
-.official { font-style: italic; color: var(--muted); margin: 8px 0 4px; }
-.meta { color: var(--accent-2); font-size: 13px; font-weight: 700; margin: 0 0 8px; }
-.guide { margin: 0 0 10px; font-size: 15px; }
-.sources-line { margin: 0; font-size: 13px; color: var(--muted); }
-.spoiler-note { color: var(--muted); font-style: italic; margin: 8px 0 0; }
-.empty { color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
 
-.sources { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin: 24px auto 0; }
-.sources h2 { margin: 0 0 8px; font-size: 22px; }
-.sources p { font-size: 14.5px; color: var(--muted); }
-.sources ul { margin: 10px 0; padding-left: 20px; }
-.sources li { margin-bottom: 6px; }
+.guide-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.guide-head h3 { margin: 0; font-size: 24px; flex: 1 1 auto; line-height: 1.2; }
+.guide-col.earned { border-color: var(--accent-2); }
+.guide-col.earned .guide-head h3 { color: var(--accent-2); }
+.official { font-style: italic; color: var(--muted); margin: 10px 0 4px; }
+.meta { color: var(--accent-2); font-size: 13px; font-weight: 700; margin: 0 0 12px; }
+.missable-box {
+  background: var(--warn-bg); border: 1px solid var(--warn-line);
+  border-radius: 8px; padding: 10px 12px; margin: 0 0 12px; font-size: 14.5px;
+}
+.unconfirmed-box {
+  background: #2a1a2e; border: 1px solid var(--accent);
+  border-radius: 8px; padding: 10px 12px; margin: 0 0 12px; font-size: 14.5px;
+}
+.steps { margin: 0; padding-left: 26px; }
+.steps li { margin-bottom: 10px; font-size: 15px; padding-left: 4px; }
+.steps li::marker { color: var(--accent-2); font-weight: 700; }
+.cite {
+  font-size: 11px; font-weight: 700; color: var(--accent-2);
+  text-decoration: none; margin-left: 2px; vertical-align: super;
+}
+.cite:hover { text-decoration: underline; }
+.guide-actions { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; display: flex; gap: 10px; align-items: center; }
+.guide-actions button {
+  background: var(--accent-2); color: #06231f; border: 0; border-radius: 8px;
+  padding: 8px 14px; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.guide-actions button:hover { filter: brightness(1.1); }
+.guide-actions .earned-label { color: var(--accent-2); font-weight: 700; font-size: 14px; }
+.spoiler-note { color: var(--muted); font-style: italic; margin: 8px 0 0; }
+.empty { color: var(--muted); }
+
+.sources-col ol { margin: 0 0 12px; padding-left: 26px; }
+.sources-col li { margin-bottom: 10px; font-size: 14px; }
+.sources-col li::marker { color: var(--accent-2); font-weight: 700; }
+.sources-col li a { font-weight: 600; }
+.unconfirmed-note { font-size: 13.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; margin: 0 0 10px; }
+.sources-hint { font-size: 13px; color: var(--muted); margin: 0; }
+
+.method { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin: 24px auto 0; }
+.method h2 { margin: 0 0 8px; font-size: 22px; }
+.method p { font-size: 14.5px; color: var(--muted); }
 footer { color: var(--muted); font-size: 13px; margin-top: 20px; }
 footer p { margin: 6px 0; }
+
+@media (max-width: 1000px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .guide-col, .sources-col { position: static; }
+  .checklist-col #checklist { max-height: 360px; overflow-y: auto; }
+  h1 { font-size: 34px; }
+}

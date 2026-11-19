@@ -11,22 +11,31 @@ best GTA 6 trophy guide" bounty ($250 USDC).
 
 ## What you get
 
-A fully offline static web app. Each trophy lists its official
-name, description and grade, plus a guide written in our own
-words: what to do, where to go, and when a trophy can be missed.
-Where a method comes from a published source it is cited
-(PowerPyx, KeenGamer, Output Lag, GTABase, Push Square, Exophase
-and PSNProfiles). Three trophies had no reliable published method
-at launch, and the guide says so plainly instead of making one
-up. Only one trophy is missable — Positive Mental Attitude, the
-Chapter 1 balcony meditation — and it is flagged everywhere it
-matters.
+A fully offline static web app, laid out in three columns: a
+checklist of all 55 trophies on the left, the selected trophy's
+guide in the middle, and a numbered Sources column on the right.
+
+Every guide is written in our own words and split into steps,
+and every step carries inline [n] citations pointing at the
+numbered Sources column — PowerPyx, KeenGamer, Output Lag,
+GTABase and Push Square, plus the official PlayStation list —
+so any claim in the guide can be checked against the published
+guide it comes from. A header audit strip counts it all up
+from the data itself: 55/55 guides cite a source, 226/226 steps
+cited, 6 sources read, 1 possibly missable.
+
+Three trophies had no reliable published method at launch (In
+The Beginning…, Bad Luck, I Guess and Ten Pin), and the guide
+says so plainly instead of making one up. Only one trophy is
+missable — Positive Mental Attitude, the Chapter 1 balcony
+meditation — and it is flagged everywhere it matters.
 
 ## Tracking your hunt
 
 Tick trophies off as you earn them; the checklist is saved in
-your browser (localStorage) so it survives closing the tab. You
-can export your progress to a file and import it back, search by
+your browser (localStorage) so it survives closing the tab, and
+the header shows your progress toward the platinum. You can
+export your progress to a file and import it back, search by
 name, filter by type and grade, switch between earned and
 remaining views, and turn on spoiler mode to hide story trophies
 until you have earned them. A three-stage platinum roadmap lays

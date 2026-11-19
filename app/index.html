@@ -21,6 +21,13 @@
   </div>
 </header>
 
+<section class="audit" aria-label="Guide audit">
+  <div><strong id="auditGuides">–</strong><span>guides cite a source</span></div>
+  <div><strong id="auditSteps">–</strong><span>steps cited</span></div>
+  <div><strong id="auditSources">–</strong><span>sources read</span></div>
+  <div><strong id="auditMissable">–</strong><span>possibly missable</span></div>
+</section>
+
 <section class="facts" aria-label="At a glance">
   <div><strong>~200 hours</strong><span>to platinum (PowerPyx: 4/10)</span></div>
   <div><strong>1 playthrough</strong><span>no mission replay, free-roam after the story</span></div>
@@ -93,12 +100,27 @@
 </section>
 
 <p class="list-meta" id="listMeta"></p>
-<main id="list" aria-live="polite"></main>
 
-<section class="sources" id="sources">
+<div class="guide-layout">
+  <section class="checklist-col" aria-label="Trophy checklist">
+    <h2>Checklist</h2>
+    <p class="col-hint">Tick trophies as you earn them. Click one to read its guide.</p>
+    <div id="checklist"></div>
+  </section>
+  <section class="guide-col" aria-label="Selected trophy guide">
+    <div id="guidePanel"></div>
+  </section>
+  <aside class="sources-col" aria-label="Sources">
+    <h2>Sources</h2>
+    <ol id="sourceList"></ol>
+    <p class="unconfirmed-note" id="unconfirmedNote"></p>
+    <p class="sources-hint">Every step in the guide carries the numbers of the sources it comes from. Tap a number to jump to the source.</p>
+  </aside>
+</div>
+
+<section class="method" id="method">
   <h2>Sources &amp; how this guide was made</h2>
-  <p>Names, descriptions and grades are the official PlayStation list. Every guide above is written in our own words for this guide; each one names where its facts come from, so you can check them. We never copy another guide&rsquo;s text. Where no reliable method is published yet — In The Beginning…, Bad Luck, I Guess and Ten Pin at launch — the guide says so and tells you what is known instead of inventing a location or a step.</p>
-  <ul id="sourceList"></ul>
+  <p>Names, descriptions and grades are the official PlayStation list. Every guide above is written in our own words for this guide, split into steps, and each step cites the published guides it comes from — PowerPyx, KeenGamer, Output Lag, GTABase and Push Square — so you can check any step. We never copy another guide&rsquo;s text. Where no reliable method is published yet — In The Beginning…, Bad Luck, I Guess and Ten Pin at launch — the guide says so and tells you what is known instead of inventing a location or a step.</p>
   <p class="method">Roadmap figures (200 hours, 4/10, no mission replay, 15 manual saves, cheats disabling trophies, the 100% checklist thresholds, and the Chapter 1 meditation warning) are from PowerPyx&rsquo;s trophy guide and roadmap, cross-checked against KeenGamer and Output Lag. Counts such as 42 Shooting Range challenges, 14 Top Fun locations, 18 meditation spots and 39 gang operations are the counts those guides report from the game.</p>
 </section>
 

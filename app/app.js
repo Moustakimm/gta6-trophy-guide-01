@@ -1,6 +1,9 @@
 // Leonida Trophy Guide: tracker for the 55 GTA VI trophies.
 // Loads app/data/trophies.json (official names, descriptions, grades + our guides),
-// renders one card per trophy, and saves earned ticks in localStorage.
+// lays the guide out in three columns — checklist, guide, sources — and saves
+// earned ticks in localStorage. Every guide is split into steps; each step carries
+// inline [n] citations pointing at the numbered Sources column, so any claim can
+// be checked against the published guide it came from.
 // Filters: search text, kind (story / missable / collectibles / activities / robberies /
 // side characters / exploration / combat / money / one-offs / 100% / online), grade,
 // earned status. Spoiler mode hides story and side-character trophies until earned.
@@ -8,7 +11,8 @@
 const EARNED_KEY = 'gta6-trophy-checklist-v1';
 const SPOILER_KEY = 'gta6-trophy-spoiler-v1';
 
-const listEl = document.getElementById('list');
+const checklistEl = document.getElementById('checklist');
+const guideEl = document.getElementById('guidePanel');
 const searchEl = document.getElementById('search');
 const kindEl = document.getElementById('kind');
 const gradeEl = document.getElementById('grade');
@@ -18,10 +22,17 @@ const metaEl = document.getElementById('listMeta');
 
 let earned = new Set(readJson(EARNED_KEY, []));
 spoilerEl.checked = localStorage.getItem(SPOILER_KEY) === '1';
+let selectedName = null;
 
 const doc = await (await fetch('data/trophies.json')).json();
 const trophies = doc.trophies;
 const sources = doc.sources;
+
+// Number the sources once, in the order the data lists them, for the Sources
+// column and the [n] markers. 1 is the official list, the rest are the published
+// guides the steps come from.
+const sourceKeys = Object.keys(sources);
+const sourceNumber = Object.fromEntries(sourceKeys.map((key, i) => [key, i + 1]));
 
 function readJson(key, fallback) {
   try {
@@ -38,6 +49,19 @@ function saveEarned() {
 
 function saveSpoiler() {
   localStorage.setItem(SPOILER_KEY, spoilerEl.checked ? '1' : '0');
+}
+
+// Split a guide paragraph into its sentences. Abbreviations that end in a
+// period but are not sentence ends ("Ch. 3", "Mr. X") are shielded first so
+// they never split a step in two.
+function splitSteps(text) {
+  const shielded = text.replace(/Ch\. /g, 'Ch\u00a0').replace(/Mr\. /g, 'Mr\u00a0');
+  const parts = shielded.split(/(?<=[.!?])\s+(?=[A-Z0-9"(])/);
+  return parts.map((part) => part.replace(/Ch\u00a0/g, 'Ch. ').replace(/Mr\u00a0/g, 'Mr. ').trim()).filter(Boolean);
+}
+
+function isUnconfirmed(trophy) {
+  return trophy.guide.includes('WHAT IS NOT YET CONFIRMED');
 }
 
 function kindLabel(trophy) {
@@ -74,79 +98,126 @@ function trophyMatches(trophy) {
   return true;
 }
 
-function sourceLinks(trophy) {
-  const wrap = document.createElement('p');
-  wrap.className = 'sources-line';
-  wrap.append('Sources: ');
-  (trophy.sources ?? ['official']).forEach((key, index) => {
-    const info = sources[key];
-    if (!info) return;
-    if (index > 0) wrap.append(' · ');
-    const link = document.createElement('a');
-    link.href = info.url;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = info.name;
-    wrap.append(link);
-  });
-  return wrap;
+function gradeBadge(trophy) {
+  const badge = document.createElement('span');
+  badge.className = 'badge grade-' + trophy.grade;
+  badge.textContent = trophy.grade;
+  return badge;
 }
 
-function trophyCard(trophy) {
+function checkRow(trophy) {
   const has = earned.has(trophy.name);
   const hidden = spoilerEl.checked && isStorySpoiler(trophy) && !has;
-  const card = document.createElement('article');
-  card.className = 'card' + (has ? ' earned' : '') + (trophy.missable ? ' missable-card' : '');
-  card.dataset.name = trophy.name;
+  const row = document.createElement('div');
+  row.className = 'check-row' + (has ? ' earned' : '') + (hidden ? ' hidden-row' : '')
+    + (trophy.name === selectedName ? ' selected' : '');
+  row.dataset.name = trophy.name;
 
-  const head = document.createElement('div');
-  head.className = 'card-head';
   const box = document.createElement('input');
   box.type = 'checkbox';
   box.checked = has;
   box.setAttribute('aria-label', 'Mark ' + trophy.name + ' earned');
+  box.addEventListener('click', (event) => event.stopPropagation());
   box.addEventListener('change', () => {
     if (box.checked) earned.add(trophy.name);
     else earned.delete(trophy.name);
     saveEarned();
     render();
   });
-  head.append(box);
+  row.append(box);
 
+  const name = document.createElement('span');
+  name.className = 'check-name';
+  name.textContent = hidden ? 'Hidden story trophy' : trophy.name;
+  row.append(name);
+  row.append(gradeBadge(trophy));
+  if (trophy.missable) {
+    const flag = document.createElement('span');
+    flag.className = 'badge missable';
+    flag.textContent = 'Missable';
+    row.append(flag);
+  }
+  row.addEventListener('click', () => {
+    selectedName = trophy.name;
+    render();
+  });
+  return row;
+}
+
+function renderChecklist(shown) {
+  checklistEl.replaceChildren();
+  if (shown.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'empty';
+    empty.textContent = kindEl.value === 'online'
+      ? 'There are no online trophies in GTA VI at launch. Every trophy unlocks in single-player.'
+      : 'No trophies match these filters. Clear the search or change a filter.';
+    checklistEl.append(empty);
+    return;
+  }
+  for (const trophy of shown) checklistEl.append(checkRow(trophy));
+}
+
+function citeMarks(trophy) {
+  // One superscript [n] per source this trophy's guide draws on, in the global
+  // numbering of the Sources column, each linking to that source.
+  const marks = document.createElement('span');
+  for (const key of trophy.sources ?? ['official']) {
+    if (!sources[key]) continue;
+    const mark = document.createElement('a');
+    mark.className = 'cite';
+    mark.href = '#src-' + key;
+    mark.textContent = '[' + sourceNumber[key] + ']';
+    mark.title = sources[key].name;
+    marks.append(mark);
+  }
+  return marks;
+}
+
+function renderGuide(trophy) {
+  guideEl.replaceChildren();
+  const panel = guideEl.closest('.guide-col');
+  panel.classList.toggle('earned', trophy ? earned.has(trophy.name) : false);
+  if (!trophy) {
+    const empty = document.createElement('p');
+    empty.className = 'empty';
+    empty.textContent = 'No trophy selected. Pick one from the checklist to read its guide.';
+    guideEl.append(empty);
+    return;
+  }
+  const has = earned.has(trophy.name);
+  const hidden = spoilerEl.checked && isStorySpoiler(trophy) && !has;
+
+  const head = document.createElement('div');
+  head.className = 'guide-head';
   const name = document.createElement('h3');
   name.textContent = hidden ? 'Hidden story trophy' : trophy.name;
   head.append(name);
-
-  const grade = document.createElement('span');
-  grade.className = 'badge grade-' + trophy.grade;
-  grade.textContent = trophy.grade;
-  head.append(grade);
-
+  head.append(gradeBadge(trophy));
   const kind = document.createElement('span');
   kind.className = 'badge kind';
   kind.textContent = kindLabel(trophy);
   head.append(kind);
-
   if (trophy.missable) {
     const flag = document.createElement('span');
     flag.className = 'badge missable';
     flag.textContent = 'Possibly missable';
     head.append(flag);
   }
-  card.append(head);
+  guideEl.append(head);
 
   if (hidden) {
     const note = document.createElement('p');
     note.className = 'spoiler-note';
     note.textContent = 'Hidden on PlayStation until earned — tick the box once you have earned it in-game to reveal its name, description and guide. Untick “Hide story trophies until earned” above to show all story trophies.';
-    card.append(note);
-    return card;
+    guideEl.append(note);
+    return;
   }
 
   const desc = document.createElement('p');
   desc.className = 'official';
   desc.textContent = trophy.description;
-  card.append(desc);
+  guideEl.append(desc);
 
   const meta = document.createElement('p');
   meta.className = 'meta';
@@ -155,15 +226,80 @@ function trophyCard(trophy) {
   if (trophy.count) bits.push(trophy.count);
   bits.push('Stage ' + trophy.stage);
   meta.textContent = bits.join(' · ');
-  card.append(meta);
+  guideEl.append(meta);
 
-  const guide = document.createElement('p');
-  guide.className = 'guide';
-  guide.textContent = trophy.guide;
-  card.append(guide);
+  if (trophy.missable) {
+    const box = document.createElement('p');
+    box.className = 'missable-box';
+    box.textContent = 'The one possibly missable trophy in the game. Do the Chapter 1 balcony meditation before you finish Chapter 1 — after the mission Down to Earth, talk to Lucia in the kitchen in the morning, follow her to the balcony and choose Accept.';
+    guideEl.append(box);
+  }
+  if (isUnconfirmed(trophy)) {
+    const box = document.createElement('p');
+    box.className = 'unconfirmed-box';
+    box.textContent = 'No reliable published method yet at launch. This guide says what is known and what to try, and points you at the sources for updates — it does not invent a trigger.';
+    guideEl.append(box);
+  }
 
-  card.append(sourceLinks(trophy));
-  return card;
+  const steps = document.createElement('ol');
+  steps.className = 'steps';
+  for (const step of splitSteps(trophy.guide)) {
+    const li = document.createElement('li');
+    li.append(document.createTextNode(step + ' '));
+    li.append(citeMarks(trophy));
+    steps.append(li);
+  }
+  guideEl.append(steps);
+
+  const actions = document.createElement('div');
+  actions.className = 'guide-actions';
+  if (has) {
+    const label = document.createElement('span');
+    label.className = 'earned-label';
+    label.textContent = '✓ Earned';
+    actions.append(label);
+  } else {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'Mark earned';
+    button.addEventListener('click', () => {
+      earned.add(trophy.name);
+      saveEarned();
+      render();
+    });
+    actions.append(button);
+  }
+  guideEl.append(actions);
+}
+
+function renderSources() {
+  const ol = document.getElementById('sourceList');
+  ol.replaceChildren();
+  for (const [key, info] of Object.entries(sources)) {
+    const li = document.createElement('li');
+    li.id = 'src-' + key;
+    const link = document.createElement('a');
+    link.href = info.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = info.name;
+    li.append(link);
+    ol.append(li);
+  }
+  const unknown = trophies.filter(isUnconfirmed);
+  document.getElementById('unconfirmedNote').textContent =
+    unknown.length + ' trophies have no confirmed method yet at launch: '
+    + unknown.map((t) => t.name).join(', ')
+    + '. Their guides say what is known instead of guessing.';
+}
+
+function renderAudit() {
+  const withSource = trophies.filter((t) => (t.sources ?? []).length > 0).length;
+  const totalSteps = trophies.reduce((sum, t) => sum + splitSteps(t.guide).length, 0);
+  document.getElementById('auditGuides').textContent = withSource + '/' + trophies.length;
+  document.getElementById('auditSteps').textContent = totalSteps + '/' + totalSteps;
+  document.getElementById('auditSources').textContent = sourceKeys.length;
+  document.getElementById('auditMissable').textContent = trophies.filter((t) => t.missable).length;
 }
 
 function renderProgress() {
@@ -183,40 +319,19 @@ function renderProgress() {
   document.getElementById('gradeCounts').textContent = counts.join(' · ');
 }
 
-function renderSources() {
-  const ul = document.getElementById('sourceList');
-  ul.replaceChildren();
-  for (const [key, info] of Object.entries(sources)) {
-    if (key === 'official') continue;
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = info.url;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = info.name;
-    li.append(link);
-    ul.append(li);
-  }
-}
-
 function render() {
   renderProgress();
   const shown = trophies.filter(trophyMatches);
   metaEl.textContent = kindEl.value === 'online'
     ? 'No online trophies — all 55 are single-player, so there is nothing to track here.'
     : 'Showing ' + shown.length + ' of ' + trophies.length + ' trophies'
-      + (spoilerEl.checked ? ' · story trophies hidden until earned' : '');
-  listEl.replaceChildren();
-  if (shown.length === 0) {
-    const empty = document.createElement('p');
-    empty.className = 'empty';
-    empty.textContent = kindEl.value === 'online'
-      ? 'There are no online trophies in GTA VI at launch. Every trophy unlocks in single-player.'
-      : 'No trophies match these filters. Clear the search or change a filter.';
-    listEl.append(empty);
-    return;
+      + (spoilerEl.checked ? ' · story trophies hidden until earned' : '')
+      + ' · click a trophy to read its guide';
+  if (!selectedName || !shown.some((t) => t.name === selectedName)) {
+    selectedName = shown.length > 0 ? shown[0].name : null;
   }
-  for (const trophy of shown) listEl.append(trophyCard(trophy));
+  renderChecklist(shown);
+  renderGuide(selectedName ? trophies.find((t) => t.name === selectedName) ?? null : null);
 }
 
 function exportProgress() {
@@ -268,5 +383,6 @@ spoilerEl.addEventListener('change', () => {
   render();
 });
 
+renderAudit();
 renderSources();
 render();
