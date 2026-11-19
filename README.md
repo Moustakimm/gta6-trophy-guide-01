@@ -4,24 +4,34 @@
 [![rank](https://make.fun/badge/gta6-trophy-guide-01/Moustakimm/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 [![reward](https://make.fun/badge/gta6-trophy-guide-01/Moustakimm/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-The complete GTA VI trophy guide and tracker — all 55 PS5 trophies,
-for make.fun's "Build the best GTA 6 trophy guide" bounty, $250 in
-USDC.
+The complete Grand Theft Auto VI trophy guide and tracker for
+PlayStation 5 — every one of the 55 trophies, from the single
+platinum down to the last bronze. Built for make.fun's "Build the
+best GTA 6 trophy guide" bounty ($250 USDC).
 
-## What it does
+## What you get
 
-A fully offline static web app. Every trophy has its official name,
-description and grade, plus an own-words guide on what to do,
-where and how, and when it can be missed — with sources cited
-(PowerPyx, KeenGamer, Output Lag, GTABase, Push Square, Exophase /
-PSNProfiles). The tracker saves your checklist in the browser,
-with export/import, search, filters by kind and grade, earned /
-remaining views, a spoiler mode that hides story trophies until
-earned, and a 3-stage platinum roadmap (story → 100% checklist →
-cleanup). Only one trophy is missable: Positive Mental Attitude
-(the Chapter 1 balcony meditation). Three trophies have no reliably
-published method yet at launch and say so honestly instead of
-inventing one.
+A fully offline static web app. Each trophy lists its official
+name, description and grade, plus a guide written in our own
+words: what to do, where to go, and when a trophy can be missed.
+Where a method comes from a published source it is cited
+(PowerPyx, KeenGamer, Output Lag, GTABase, Push Square, Exophase
+and PSNProfiles). Three trophies had no reliable published method
+at launch, and the guide says so plainly instead of making one
+up. Only one trophy is missable — Positive Mental Attitude, the
+Chapter 1 balcony meditation — and it is flagged everywhere it
+matters.
+
+## Tracking your hunt
+
+Tick trophies off as you earn them; the checklist is saved in
+your browser (localStorage) so it survives closing the tab. You
+can export your progress to a file and import it back, search by
+name, filter by type and grade, switch between earned and
+remaining views, and turn on spoiler mode to hide story trophies
+until you have earned them. A three-stage platinum roadmap lays
+out the route: finish the story, work through the 100% checklist,
+then clean up whatever is left.
 
 ## Run it
 
