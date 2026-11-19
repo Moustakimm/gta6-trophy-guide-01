@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Guide — GTA VI (PS5)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-text">
+    <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; Unofficial fan guide</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="subtitle">Every one of the 55 trophies — official names, descriptions and grades, a guide to each in our own words with its sources, a roadmap to the platinum, and a tracker that remembers your progress.</p>
+  </div>
+  <div class="progress-card" id="progressCard">
+    <p class="progress-big"><span id="earnedCount">0</span> / 55 earned</p>
+    <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+    <p class="progress-sub" id="progressSub">Platinum: Vice Got a Price! — 0 of 54 others earned</p>
+    <p class="progress-grades" id="gradeCounts"></p>
+  </div>
+</header>
+
+<section class="facts" aria-label="At a glance">
+  <div><strong>~200 hours</strong><span>to platinum (PowerPyx: 4/10)</span></div>
+  <div><strong>1 playthrough</strong><span>no mission replay, free-roam after the story</span></div>
+  <div><strong>1 possibly missable</strong><span>Positive Mental Attitude — see Stage 1</span></div>
+  <div><strong>0 online</strong><span>all 55 are single-player</span></div>
+  <div><strong>28 hidden</strong><span>on PSN until earned</span></div>
+</section>
+
+<section class="roadmap" id="roadmap">
+  <h2>Roadmap to the platinum</h2>
+  <p class="roadmap-intro">Built from the official descriptions and the counts PlayStation tracks. Do the stages in order; almost everything can be cleaned up after the story.</p>
+  <div class="stages">
+    <article class="stage">
+      <h3>Stage 1 — Play the story <span>60–80 hours</span></h3>
+      <p>Finish Chapters 1–5 and the final mission. Story trophies (12) pop on their own and cannot be missed. Do the side-character finales as they open — Andy (Lucia, Ch. 3), Kenton (Ch. 1), Billy (after Ch. 2: Coffee Break), Randy and Tyrone (Ch. 3) — and scan vehicles and study animals as you go: 200 of 277 vehicles and 100 of 255 animals are needed later.</p>
+      <p class="warn"><strong>Do this first, before you finish Chapter 1:</strong> the balcony meditation at Jason&rsquo;s house. After the mission Down to Earth, talk to Lucia in the kitchen in the morning, follow her to the balcony and choose Accept. It is the only trophy-related moment that can disappear — see Positive Mental Attitude.</p>
+      <p>Keep a manual save at the start of every chapter (15 manual slots). There is no mission replay and no New Game+, and cheats disable trophies and saving — keep cheats off for the whole run.</p>
+    </article>
+    <article class="stage">
+      <h3>Stage 2 — The 100% checklist <span>~100 hours</span></h3>
+      <p>After the story, open Progress &gt; Stats &gt; 100% Completion. It is lenient — closer to 60% true completion: any 70 of 80 challenges, 300 stunts, all robberies (39 gang operations, 8 bank vaults), all 15 Target Decks, 15 of 18 meditations, and any 100 optional missions. Most of it falls out of the other trophies. Gold-medal all 42 Shooting Range challenges and win a drone race at all 14 Top Fun locations and 20 different races in this stage too.</p>
+    </article>
+    <article class="stage">
+      <h3>Stage 3 — Cleanup <span>~10 hours</span></h3>
+      <p>Finish the 8 Strangers &amp; Freaks strands that count (not every side questline does — check the guide), the money trophies ($250,000 laundered, $100,000 spent, 8 garages, 10 Scooter Bros registrations), and the one-off stunts: the airliner at VCIA, the Rhino tank, the UFO easter egg, and the three trophies whose exact triggers are still unconfirmed at launch.</p>
+    </article>
+  </div>
+  <p class="missable-note"><strong>Missable trophies: 1, possibly.</strong> Positive Mental Attitude (meditate at every spot) is the only one any published guide flags, and even there it is unconfirmed whether the Chapter 1 meditation is required. Everything else — story, side quests, collectibles, the 100% checklist — stays available in free-roam after the credits.</p>
+</section>
+
+<section class="controls" aria-label="Tracker controls">
+  <label class="search">Search <input id="search" type="search" placeholder="Trophy name, mission, place…" autocomplete="off"></label>
+  <label>Kind
+    <select id="kind">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="missable">Missable</option>
+      <option value="collectible">Collectibles</option>
+      <option value="activity">Activities</option>
+      <option value="robbery">Robberies</option>
+      <option value="side">Side characters</option>
+      <option value="exploration">Exploration</option>
+      <option value="combat">Combat</option>
+      <option value="money">Money &amp; property</option>
+      <option value="misc">One-offs</option>
+      <option value="completion">100% completion</option>
+      <option value="online">Online (0)</option>
+    </select>
+  </label>
+  <label>Grade
+    <select id="grade">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label>Show
+    <select id="status">
+      <option value="all">All trophies</option>
+      <option value="earned">Earned only</option>
+      <option value="remaining">Not yet earned</option>
+    </select>
+  </label>
+  <label class="spoiler"><input id="spoiler" type="checkbox"> Hide story trophies until earned</label>
+  <button id="export" type="button">Export progress</button>
+  <label class="import">Import progress <input id="import" type="file" accept="application/json,.json"></label>
+  <button id="reset" type="button">Reset progress</button>
+</section>
+
+<p class="list-meta" id="listMeta"></p>
+<main id="list" aria-live="polite"></main>
+
+<section class="sources" id="sources">
+  <h2>Sources &amp; how this guide was made</h2>
+  <p>Names, descriptions and grades are the official PlayStation list. Every guide above is written in our own words for this guide; each one names where its facts come from, so you can check them. We never copy another guide&rsquo;s text. Where no reliable method is published yet — In The Beginning…, Bad Luck, I Guess and Ten Pin at launch — the guide says so and tells you what is known instead of inventing a location or a step.</p>
+  <ul id="sourceList"></ul>
+  <p class="method">Roadmap figures (200 hours, 4/10, no mission replay, 15 manual saves, cheats disabling trophies, the 100% checklist thresholds, and the Chapter 1 meditation warning) are from PowerPyx&rsquo;s trophy guide and roadmap, cross-checked against KeenGamer and Output Lag. Counts such as 42 Shooting Range challenges, 14 Top Fun locations, 18 meditation spots and 39 gang operations are the counts those guides report from the game.</p>
+</section>
+
+<footer>
+  <p>Unofficial fan guide. Not affiliated with Rockstar Games, Take-Two Interactive or PlayStation. No Rockstar logo, official artwork or game screenshots are used — the look is our own. Trophy names and descriptions are shown as PlayStation publishes them.</p>
+  <p>Progress is saved in your browser (localStorage) on this device only. Export it to keep a backup, and import it to restore it. This guide works with the network off: it loads only its own files.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* Leonida Trophy Guide — our own look: a Vice City dusk palette, deep navy panels,
+   warm sunset pink and teal accents. No external fonts or images; everything is local. */
+:root {
+  --bg: #0e1420;
+  --panel: #182234;
+  --panel-2: #1f2c47;
+  --line: #2c3a57;
+  --text: #e9edf5;
+  --muted: #a7b2c6;
+  --accent: #ff5d8f;
+  --accent-2: #2dd4bf;
+  --gold: #f5c542;
+  --silver: #c3cad6;
+  --bronze: #d08a4e;
+  --platinum: #bfefff;
+  --warn-bg: #3a2417;
+  --warn-line: #c47a3d;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  margin: 0; padding: 0 20px 40px;
+  background: var(--bg); color: var(--text);
+  line-height: 1.5;
+}
+body > * { max-width: 1080px; margin-left: auto; margin-right: auto; }
+a { color: var(--accent-2); }
+a:visited { color: #7dd3c8; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between;
+  align-items: flex-start; padding: 28px 0 8px;
+}
+.masthead-text { flex: 1 1 560px; }
+.kicker { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; margin: 0 0 6px; font-weight: 700; }
+h1 { font-size: 44px; line-height: 1.05; margin: 0 0 10px; letter-spacing: -0.01em; }
+.subtitle { color: var(--muted); font-size: 17px; margin: 0; max-width: 640px; }
+.progress-card {
+  flex: 0 1 300px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px 18px;
+}
+.progress-big { font-size: 26px; font-weight: 800; margin: 0 0 8px; }
+.progress-big span { color: var(--accent-2); }
+.progress-bar { height: 10px; background: #0a0f1a; border-radius: 6px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.25s ease; }
+.progress-sub, .progress-grades { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+
+.facts {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 18px auto;
+}
+.facts div {
+  flex: 1 1 160px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 14px;
+}
+.facts strong { display: block; font-size: 17px; color: var(--accent-2); }
+.facts span { color: var(--muted); font-size: 13px; }
+
+.roadmap {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px 22px; margin: 10px auto 20px;
+}
+.roadmap h2 { margin: 0 0 6px; font-size: 24px; }
+.roadmap-intro { color: var(--muted); margin: 0 0 16px; }
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.stage { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.stage h3 { margin: 0 0 8px; font-size: 17px; }
+.stage h3 span { color: var(--accent-2); font-weight: 600; font-size: 14px; }
+.stage p { margin: 0 0 10px; font-size: 14.5px; }
+.warn {
+  background: var(--warn-bg); border: 1px solid var(--warn-line);
+  border-radius: 8px; padding: 10px 12px;
+}
+.missable-note {
+  margin: 16px 0 0; font-size: 14.5px; border-top: 1px solid var(--line); padding-top: 14px;
+}
+
+.controls {
+  display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; margin: 0 auto 8px;
+}
+.controls label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.controls label.search { flex: 1 1 220px; }
+.controls input[type="search"], .controls select {
+  background: #0a0f1a; color: var(--text); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 10px; font-size: 14px;
+}
+.controls label.spoiler, .controls label.import { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 8px; color: var(--text); font-weight: 600; }
+.controls input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+.controls button {
+  background: var(--accent); color: #fff; border: 0; border-radius: 8px;
+  padding: 9px 14px; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.controls button:hover { filter: brightness(1.1); }
+.controls #reset { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.controls .import input { font-size: 12px; max-width: 170px; }
+.list-meta { color: var(--muted); font-size: 14px; margin: 10px auto; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px; margin: 0 auto 12px;
+}
+.card.earned { border-color: var(--accent-2); }
+.card.missable-card { border-color: var(--warn-line); }
+.card-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.card-head input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent-2); flex: none; }
+.card-head h3 { margin: 0; font-size: 19px; flex: 1 1 auto; }
+.card.earned .card-head h3 { color: var(--accent-2); }
+.badge {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: 20px; padding: 3px 10px; white-space: nowrap;
+}
+.grade-platinum { background: #12303d; color: var(--platinum); border: 1px solid #4db8d8; }
+.grade-gold { background: #3a2f10; color: var(--gold); border: 1px solid #a8862a; }
+.grade-silver { background: #2b313c; color: var(--silver); border: 1px solid #7d8798; }
+.grade-bronze { background: #3a2417; color: #f0b184; border: 1px solid #a86a3d; }
+.badge.kind { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.badge.missable { background: var(--warn-bg); color: #ffb27a; border: 1px solid var(--warn-line); }
+.official { font-style: italic; color: var(--muted); margin: 8px 0 4px; }
+.meta { color: var(--accent-2); font-size: 13px; font-weight: 700; margin: 0 0 8px; }
+.guide { margin: 0 0 10px; font-size: 15px; }
+.sources-line { margin: 0; font-size: 13px; color: var(--muted); }
+.spoiler-note { color: var(--muted); font-style: italic; margin: 8px 0 0; }
+.empty { color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+
+.sources { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin: 24px auto 0; }
+.sources h2 { margin: 0 0 8px; font-size: 22px; }
+.sources p { font-size: 14.5px; color: var(--muted); }
+.sources ul { margin: 10px 0; padding-left: 20px; }
+.sources li { margin-bottom: 6px; }
+footer { color: var(--muted); font-size: 13px; margin-top: 20px; }
+footer p { margin: 6px 0; }
